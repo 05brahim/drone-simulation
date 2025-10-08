@@ -1,18 +1,45 @@
 #VRML_SIM R2023b utf8
 WorldInfo {
-  basicTimeStep 8
+  basicTimeStep 16
 }
+
 Viewpoint {
   orientation -0.58 0.77 0.26 1.26
   position 1 1 0.6
 }
+
 TexturedBackground {}
 TexturedBackgroundLight {}
+
 Floor {
   size 5 5
 }
-Crazyflie {
+
+# نموذج بسيط لدرون بأربع محركات (بدون PROTO خارجي)
+Transform {
   translation 0 0 0.1
-  rotation 0 0 1 0
+  children [
+    Shape {
+      geometry Box { size 0.1 0.1 0.03 }
+      appearance PBRAppearance { baseColor 0 0 0 }
+    }
+    # المحركات الأربعة
+    Solid {
+      translation 0.05 0.05 0
+      children [ DEF M1 RotationalMotor { name "motor1" } ]
+    }
+    Solid {
+      translation -0.05 0.05 0
+      children [ DEF M2 RotationalMotor { name "motor2" } ]
+    }
+    Solid {
+      translation -0.05 -0.05 0
+      children [ DEF M3 RotationalMotor { name "motor3" } ]
+    }
+    Solid {
+      translation 0.05 -0.05 0
+      children [ DEF M4 RotationalMotor { name "motor4" } ]
+    }
+  ]
   controller "crazyflie_controller"
 }
